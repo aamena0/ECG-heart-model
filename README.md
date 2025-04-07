@@ -1,7 +1,28 @@
 # ECG-heart-model
-#Materials: 
-#Arduino ECG with OLED Display and LED Indicators
-This project demonstrates how to build a simple ECG (Electrocardiogram) display using an Arduino, an AD8232 ECG sensor module, an OLED screen, and LED indicators. The OLED screen visualizes the heart's electrical activity in real time, while the LEDs blink in response to the P-wave and QRS complex of the ECG signal.
+#Building an Arduino-Based ECG: From Basic Signal to Visual Display
+
+This guide provides a step-by-step approach to creating an ECG (Electrocardiogram) monitoring system using an Arduino. You can start with a simple setup to view the raw ECG signal on the serial plotter and then gradually add complexity by incorporating an OLED display and LED indicators.
+
+#Materials:
+Arduino Uno
+AD8232 ECG sensor module
+Connecting wires
+Gel Electrodes
+Optional: OLED display (128x64, SSD1306 driver)
+Optional: 2 x LEDs (different colors recommended)
+Optional: 2 x 220 Ohm Resistors (for LEDs)
+Breadboard 
+1. AD8232 ECG Sensor Module
+A single-lead heart rate monitor front-end designed for ECG and other biopotential measurement applications.
+
+AD8232 Connections (Common to all Steps):
+GND: Connect to Arduino GND
+OUTPUT: Connect to Arduino Analog Pin A0
+LO +: Connect to Arduino Digital Pin A3 (Leads-Off Detection)
+LO -: Connect to Arduino Digital Pin A2 (Leads-Off Detection)
+SDN: Connect to Arduino Digital Pin 4. You'll usually set this HIGH to enable.
+![image](https://github.com/user-attachments/assets/56bc3017-2b8f-4b71-83fc-b9af99ef47ba)
+
 Materials:
 Arduino Uno
 AD8232 ECG sensor module
@@ -43,5 +64,8 @@ Cathode (shorter leg) of the LED connects to Arduino GND.
 LED 2 (QRS complex indicator):
 Anode (longer leg) of the LED connects to Digital Pin 9 (through a 220-ohm resistor).
 Cathode (shorter leg) of the LED connects to Arduino GND.
+
+
+
 4. Breadboard Diagram
 (insert photo)
