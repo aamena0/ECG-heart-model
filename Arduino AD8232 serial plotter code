@@ -1,7 +1,7 @@
 #This code displays the ECG input on the built in Arduino Serial Plotter
 
 void setup() {
-  Serial.begin(19200);
+  Serial.begin(9600);
   pinMode(A3, INPUT); // Setup for leads off detection LO +
   pinMode(A2, INPUT); // Setup for leads off detection LO -
 }
