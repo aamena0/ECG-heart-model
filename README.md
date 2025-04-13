@@ -19,7 +19,7 @@ A single-lead heart rate monitor front-end designed for ECG. It's an integrated 
 AD8232 Connections (Common to all Steps):
 GND: Connect to Arduino GND
 OUTPUT: Connect to Arduino Analog Pin A0
-LO +: Connect to Arduino Analog In Pin A3 (Leads-On Detection)
+LO +: Connect to Arduino Analog In Pin A3 (Leads-Off Detection)
 LO -: Connect to Arduino Analog In Pin A2 (Leads-Off Detection)
 SDN: Connect to Arduino Digital Pin 4. 
 
@@ -52,4 +52,21 @@ Cathode (shorter leg) of the LED connects to Arduino GND.
 #4. Breadboard Diagram
 
 ![Image](https://github.com/user-attachments/assets/258773c7-6de7-4016-9c1a-1adb471374e3)
+
+
+
+#5 Electrode Placement
+Using a 3 lead ECG: 
+RA (Right Arm): Below the right clavicle.
+LA (Left Arm): Below the left clavicle.
+RL (Right Leg): On the lower right side of abdomen, away from the heart. The "RL" electrode is primarily a ground reference.
+
+
+
+#6 Instructions: 
+Install the Adafruit GFX and Adafruit SSD1306 libraries in the Arduino IDE (Sketch -> Include Library -> Manage Libraries...).
+Upload the code from the folder correlating to your intended project onto your Arduino.
+Attach the electrodes to your body.
+Run the code and open the Serial Plotter.
+
 
