@@ -1,1 +1,87 @@
+# This code will display your ECG waveform on an OLED screen
 
+#include <SPI.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+
+#define OLED_MOSI 11
+#define OLED_CLK 13
+#define OLED_DC 8
+#define OLED_CS 10
+#define OLED_RESET 9
+
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &SPI, OLED_DC, OLED_RESET, OLED_CS);
+
+const int ekgPin = A0;
+const int LO_plus = A3;
+const int LO_minus = A2;
+const int SDN = 4;
+
+#define FILTER_WINDOW 5  // Reduced smoothing to preserve sharp peaks
+
+int movingAverageFilter(int newValue) {
+  static int values[FILTER_WINDOW] = {0};  
+  static int index = 0;
+  static int sum = 0;
+
+  sum -= values[index];        // Subtract oldest value
+  values[index] = newValue;    // Store new value
+  sum += values[index];        // Add new value
+  index = (index + 1) % FILTER_WINDOW; // Move to next index
+
+  return sum / FILTER_WINDOW; // Return smoothed value
+}
+
+void setup() {
+  Serial.begin(9600);
+  delay(4000);
+
+  pinMode(ekgPin, INPUT);
+  pinMode(LO_plus, INPUT);
+  pinMode(LO_minus, INPUT);
+  pinMode(SDN, OUTPUT);
+  digitalWrite(SDN, HIGH); // Enable AD8232 sensor
+
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println(F("SSD1306 allocation failed"));
+    for (;;);
+  }
+  display.clearDisplay();
+  display.display();
+}
+
+void loop() {
+  int sensorValue = analogRead(ekgPin);
+  int filteredValue = movingAverageFilter(sensorValue);
+  Serial.print("EKG Filtered Value: ");
+  Serial.println(filteredValue);
+  displayEKG(filteredValue);
+  delay(10);
+}
+
+void displayEKG(int value) {
+  static int x = 0;
+  static int lastY = SCREEN_HEIGHT / 2;
+  
+  // Map EKG values from 200-800 to the screen height
+  int y = map(value, 200, 800, SCREEN_HEIGHT, 0);
+
+  // Allow sharper changes to preserve the QRS complex
+  if (abs(y - lastY) > 20) {
+    y = lastY;
+  }
+
+  // Draw a line instead of single pixels for a smoother waveform
+  display.drawLine(x, lastY, x + 1, y, WHITE);
+  lastY = y;
+  display.display();
+  
+  x++;
+  if (x >= SCREEN_WIDTH) {
+    x = 0;
+    display.clearDisplay();  // Clear only when the whole screen is drawn
+  }
+}
