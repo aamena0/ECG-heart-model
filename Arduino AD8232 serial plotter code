@@ -1,1 +1,19 @@
+#This code displays the ECG input on the built in Arduino Serial Plotter
 
+void setup() {
+  Serial.begin(19200);
+  pinMode(A3, INPUT); // Setup for leads off detection LO +
+  pinMode(A2, INPUT); // Setup for leads off detection LO -
+}
+
+void loop() {
+  // Check if leads are off
+  if ((digitalRead(A3) == 1) || (digitalRead(A2) == 1)) {
+    Serial.println('!');
+  } else {
+    // Scale ECG signal for even larger visualization in Serial Plotter
+    Serial.println(analogRead(A0));
+  }
+  
+  // Increase delay slightly more to widen x-axis and fit more complexes
+  delay(20); 
