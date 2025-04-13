@@ -66,6 +66,9 @@ RA (Right Arm): Below the right clavicle.
 LA (Left Arm): Below the left clavicle.
 RL (Right Leg): On the lower right side of abdomen, away from the heart. The "RL" electrode is primarily a ground reference.
 
+![Image](https://github.com/user-attachments/assets/9e036c2c-4e31-48b0-9fc0-0c93ea80bd3d)
+
+Image from “How Does Low Quality Signal Affect ECG Analysis and Practical Tips to Reduce It.” 2024. Cardiomatics. March 15, 2024. https://cardiomatics.com/how-does-low-quality-signal-affect-ecg-analysis-and-practical-tips-to-reduce-it/.
 
 
 #6 Instructions: 
