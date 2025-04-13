@@ -15,46 +15,48 @@
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &SPI, OLED_DC, OLED_RESET, OLED_CS);
 
-const int SAnode = 11; // LED for P wave
-const int AVnode = 9;  // LED for QRS complex
 const int ekgPin = A0;
 const int LO_plus = A2;
 const int LO_minus = A3;
 const int SDN = 4;
 
-float pWaveThreshold = 400; // Threshold for P wave detection
-float qrsThreshold = 600;   // Threshold for QRS complex detection
+const int LED_P = 6;  // LED for P-wave (SA node)
+const int LED_QRS = 7; // LED for QRS complex (AV node)
 
-#define FILTER_WINDOW 5  // Reduced smoothing to preserve sharp peaks
+float pWaveThreshold = 400;
+float qrsThreshold = 600;
+
+#define FILTER_WINDOW 5
 
 int movingAverageFilter(int newValue) {
-  static int values[FILTER_WINDOW] = {0};  
+  static int values[FILTER_WINDOW] = {0};
   static int index = 0;
   static int sum = 0;
 
-  sum -= values[index];        // Subtract oldest value
-  values[index] = newValue;    // Store new value
-  sum += values[index];        // Add new value
-  index = (index + 1) % FILTER_WINDOW; // Move to next index
+  sum -= values[index];
+  values[index] = newValue;
+  sum += values[index];
+  index = (index + 1) % FILTER_WINDOW;
 
-  return sum / FILTER_WINDOW; // Return smoothed value
+  return sum / FILTER_WINDOW;
 }
 
 void setup() {
   Serial.begin(9600);
   delay(4000);
 
-  pinMode(SAnode, OUTPUT);
-  pinMode(AVnode, OUTPUT);
   pinMode(ekgPin, INPUT);
   pinMode(LO_plus, INPUT);
   pinMode(LO_minus, INPUT);
   pinMode(SDN, OUTPUT);
-  digitalWrite(SDN, HIGH); // Enable AD8232 sensor
+  digitalWrite(SDN, HIGH);
+
+  pinMode(LED_P, OUTPUT);
+  pinMode(LED_QRS, OUTPUT);
 
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
     Serial.println(F("SSD1306 allocation failed"));
-    for (;;);
+    while (true);
   }
   display.clearDisplay();
   display.display();
@@ -68,14 +70,14 @@ void loop() {
   displayEKG(filteredValue);
 
   // LED Control Based on EKG Value
-  if (filteredValue > qrsThreshold) { // Threshold for QRS complex (AV node)
-    digitalWrite(AVnode, HIGH);
+  if (filteredValue > qrsThreshold) {
+    digitalWrite(LED_QRS, HIGH);
     delay(20);
-    digitalWrite(AVnode, LOW);
-  } else if (filteredValue > pWaveThreshold) { // Threshold for P wave (SA node)
-    digitalWrite(SAnode, HIGH);
+    digitalWrite(LED_QRS, LOW);
+  } else if (filteredValue > pWaveThreshold) {
+    digitalWrite(LED_P, HIGH);
     delay(40);
-    digitalWrite(SAnode, LOW);
+    digitalWrite(LED_P, LOW);
   }
 
   delay(10);
@@ -84,24 +86,19 @@ void loop() {
 void displayEKG(int value) {
   static int x = 0;
   static int lastY = SCREEN_HEIGHT / 2;
-  
-  // Map EKG values from 200-800 to the screen height
   int y = map(value, 200, 800, SCREEN_HEIGHT, 0);
 
-  // Allow sharper changes to preserve the QRS complex
   if (abs(y - lastY) > 20) {
     y = lastY;
   }
 
-  // Draw a line instead of single pixels for a smoother waveform
   display.drawLine(x, lastY, x + 1, y, WHITE);
   lastY = y;
   display.display();
-  
+
   x++;
   if (x >= SCREEN_WIDTH) {
     x = 0;
-    display.clearDisplay();  // Clear only when the whole screen is drawn
+    display.clearDisplay();
   }
-};
-
+}
