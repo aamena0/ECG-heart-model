@@ -50,4 +50,5 @@ Cathode (shorter leg) of the LED connects to Arduino GND.
 
 
 #4. Breadboard Diagram
-<img width="468" alt="Image" src="https://github.com/user-attachments/assets/3aa6a35f-b6f3-4f5e-a465-56e46c3d9447" />
+
+
