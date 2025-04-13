@@ -55,6 +55,11 @@ Cathode (shorter leg) of the LED connects to Arduino GND.
 
 
 
+Finished setup: 
+
+![Image](https://github.com/user-attachments/assets/0f25d3f4-d5fd-472c-a0c4-0c64df602dc0)
+
+
 #5 Electrode Placement
 Using a 3 lead ECG: 
 RA (Right Arm): Below the right clavicle.
