@@ -64,7 +64,7 @@ Finished setup:
 Using a 3 lead ECG: 
 RA (Right Arm): Below the right clavicle.
 LA (Left Arm): Below the left clavicle.
-RL (Right Leg): On the lower right side of abdomen, away from the heart. The "RL" electrode is primarily a ground reference.
+LL (Left Leg): On the lower left side of abdomen, away from the heart. The "LL" electrode is primarily a ground reference.
 
 ![Image](https://github.com/user-attachments/assets/9e036c2c-4e31-48b0-9fc0-0c93ea80bd3d)
 
