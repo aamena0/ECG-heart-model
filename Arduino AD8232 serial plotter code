@@ -1,4 +1,13 @@
 #This code displays the ECG input on the built in Arduino Serial Plotter
+// Instructions:
+Upload the code to your Arduino.
+Open the Serial Monitor in the Arduino IDE (Tools -> Serial Monitor).
+Change the baud rate to 9600.
+Open the Serial Plotter (Tools -> Serial Plotter).
+Attach the electrodes to your body (see electrode placement instructions in README).
+You should see a live ECG waveform in the Serial Plotter. The "!" character in the serial monitor indicates that there may be a loose electrode.
+
+Code Below:
 
 void setup() {
   Serial.begin(9600);
@@ -17,3 +26,5 @@ void loop() {
   
   // Increase delay slightly more to widen x-axis and fit more complexes
   delay(20); 
+
+
